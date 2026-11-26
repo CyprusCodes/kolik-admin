@@ -1,0 +1,11 @@
+import { organizations } from "src/constants/endpoints";
+import { API_BASE_URL } from "src/constants/api";
+import http from "src/utils/http";
+import type { OrganizationDetail } from "src/types/organization";
+
+const getOrganization = (organizationId: number | string) =>
+  http.get<{ organization: OrganizationDetail }>(
+    `${API_BASE_URL}${organizations.getOrganization(organizationId)}`,
+  );
+
+export default getOrganization;
