@@ -31,6 +31,7 @@ export const router = createBrowserRouter([
       { path: "/users/:userId", lazy: page(() => import("./pages/users/detail")) },
       { path: paths.billing, lazy: page(() => import("./pages/billing")) },
       { path: paths.sessionRecording, lazy: page(() => import("./pages/session-recording")) },
+      { path: paths.health, lazy: page(() => import("./pages/platform-health")) },
       { path: "/organizations/:organizationId", lazy: page(() => import("./pages/organizations/detail")) },
       ...comingSoon,
       { path: "*", element: <NotFoundPage /> },

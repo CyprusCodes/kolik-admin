@@ -7,20 +7,20 @@ import FilterRow from "src/components/list/filter-row";
 import ListCard from "src/components/list/list-card";
 import OrganizationsXestTable from "src/components/organization-table/organizations-xest-table";
 import { buildBillingColumns } from "src/sections/billing/billing-columns";
-import { useBillingToggle } from "src/sections/billing/use-billing-toggle";
+import { useMakePaid } from "src/sections/billing/use-make-paid";
 import { useToggleListFilters } from "src/sections/billing/use-toggle-list-filters";
 
 const BillingPage = () => {
-  const billing = useBillingToggle();
-  const { toggle } = billing;
-  const columns = useMemo(() => buildBillingColumns(toggle), [toggle]);
-  const filters = useToggleListFilters("organizations.billing_enabled");
+  const makePaid = useMakePaid();
+  const { open } = makePaid;
+  const columns = useMemo(() => buildBillingColumns(open), [open]);
+  const filters = useToggleListFilters("organizations.plan_type");
 
   return (
     <Stack spacing={3}>
       <PageHeader
         title="Billing"
-        info="Turn billing off for an organization to stop charging it. Turning it off needs a reason."
+        info="Paid organizations have no employee limit and no trial end date. Make a trial organization paid once they start paying."
       />
       <ListCard
         search={
@@ -33,13 +33,13 @@ const BillingPage = () => {
         filters={
           <FilterRow>
             <FilterSelect
-              label="Billing"
-              allLabel="On and off"
+              label="Plan"
+              allLabel="All plans"
               value={filters.state}
               onChange={filters.setState}
               data={[
-                { value: "1", label: "Billing on" },
-                { value: "0", label: "Billing off" },
+                { value: "paid", label: "Paid" },
+                { value: "trial", label: "Trial" },
               ]}
             />
           </FilterRow>
@@ -50,9 +50,11 @@ const BillingPage = () => {
           columns={columns}
           search={filters.debouncedSearch}
           additionalFilters={filters.filters}
+          refreshKey={makePaid.refreshKey}
+          initialSortCriteria="organizations.trial_expires_at"
         />
       </ListCard>
-      {billing.modal}
+      {makePaid.modal}
     </Stack>
   );
 };

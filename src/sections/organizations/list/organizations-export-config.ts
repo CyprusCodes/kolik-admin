@@ -9,7 +9,6 @@ const headers: Record<string, string> = {
   organization_tier_type: "Tier",
   employee_count: "Employees",
   enabled_app_count: "Apps",
-  status: "Status",
   created_at: "Joined",
   last_active_at: "Last active",
 };

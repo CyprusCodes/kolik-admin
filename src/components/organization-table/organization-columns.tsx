@@ -1,6 +1,5 @@
 import { Tooltip, Typography } from "@mui/material";
 import type { Col } from "@xest-ui/data-table";
-import StatusChip from "src/components/list/status-chip";
 import { formatSeats, formatTier } from "src/constants/labels";
 import type { OrganizationRow } from "src/types/organization";
 import { formatDate, trialShortLabel } from "src/utils/format";
@@ -9,11 +8,6 @@ import OrganizationRowActions from "./organization-row-actions";
 const planOptions = [
   { label: "Paid", value: "paid" },
   { label: "Trial", value: "trial" },
-];
-
-const statusOptions = [
-  { label: "Active", value: "active" },
-  { label: "Suspended", value: "suspended" },
 ];
 
 export const nameColumn: Col<OrganizationRow> = {
@@ -80,18 +74,6 @@ export const appsColumn: Col<OrganizationRow> = {
   render: (row) => String(row.enabled_app_count),
 };
 
-export const statusColumn: Col<OrganizationRow> = {
-  title: "Status",
-  dataIndex: "status",
-  filterType: { dbCol: "organization_statuses.status", type: "options", options: statusOptions },
-  render: (row) =>
-    row.status === "active" ? (
-      <StatusChip tone="good" label="Active" />
-    ) : (
-      <StatusChip tone="bad" label="Suspended" />
-    ),
-};
-
 export const joinedColumn: Col<OrganizationRow> = {
   title: "Joined",
   dataIndex: "created_at",
@@ -112,7 +94,6 @@ export const organizationColumns: Col<OrganizationRow>[] = [
   planColumn,
   employeesColumn,
   appsColumn,
-  statusColumn,
   joinedColumn,
   actionsColumn,
 ];

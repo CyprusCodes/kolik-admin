@@ -15,9 +15,10 @@ interface OrganizationsXestTableProps {
   exportConfig?: ExportDataProps<Record<string, unknown>>;
   initialSortCriteria?: string;
   additionalFilters?: FilterSpec[];
+  refreshKey?: number;
 }
 
-const noFilters: Record<FilterKey, string | null> = { plan: null, status: null, tier: null };
+const noFilters: Record<FilterKey, string | null> = { plan: null, tier: null };
 
 const OrganizationsXestTable = ({
   tableId,
@@ -27,6 +28,7 @@ const OrganizationsXestTable = ({
   exportConfig,
   initialSortCriteria = "organizations.organization_name",
   additionalFilters = [],
+  refreshKey = 0,
 }: OrganizationsXestTableProps) => (
   <PlatformXestTable<OrganizationRow>
     tableId={tableId}
@@ -36,6 +38,7 @@ const OrganizationsXestTable = ({
     extraFilters={[...buildOrganizationFilters(filters, search), ...additionalFilters]}
     exportConfig={exportConfig}
     initialSortCriteria={initialSortCriteria}
+    refreshKey={refreshKey}
   />
 );
 

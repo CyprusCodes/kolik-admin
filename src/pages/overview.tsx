@@ -6,6 +6,7 @@ import AttentionCard from "src/sections/overview/attention-card";
 import DonutCard from "src/sections/overview/donut-card";
 import LineChartCard from "src/sections/overview/line-chart-card";
 import StatCards from "src/sections/overview/stat-cards";
+import UserCountriesCard from "src/sections/overview/user-countries-card";
 import { useSeriesColors } from "src/sections/overview/chart-colors";
 import { useOverview } from "src/sections/overview/use-overview";
 import { useOverviewCharts } from "src/sections/overview/use-overview-charts";
@@ -64,6 +65,9 @@ const OverviewPage = () => {
           </Grid>
           <Grid item xs={12} lg={4}>
             <AttentionCard attention={data?.attention} />
+          </Grid>
+          <Grid item xs={12}>
+            <UserCountriesCard data={data?.userCountries} days={days} />
           </Grid>
           <Grid item xs={12} md={6}>
             <LineChartCard

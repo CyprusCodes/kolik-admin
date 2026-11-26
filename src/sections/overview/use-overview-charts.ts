@@ -38,11 +38,10 @@ export const useOverviewCharts = (data?: Overview) => {
   const plans: DonutSlice[] = [
     {
       name: "Paid",
-      value: data.totals.paidOrganizations - data.totals.suspendedOrganizations,
+      value: data.totals.paidOrganizations,
       color: theme.palette.primary.main,
     },
     { name: "Trial", value: data.totals.trialOrganizations, color: theme.palette.warning.main },
-    { name: "Suspended", value: data.totals.suspendedOrganizations, color: theme.palette.error.main },
   ];
 
   return {

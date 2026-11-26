@@ -15,13 +15,9 @@ const organizations = {
   getOrganization: (organizationId: number | string) => `/platform/organizations/${organizationId}`,
   patchOrganizationPlan: (organizationId: number | string) =>
     `/platform/organizations/${organizationId}/plan`,
-  patchOrganizationStatus: (organizationId: number | string) =>
-    `/platform/organizations/${organizationId}/status`,
   putOrganizationApp: (organizationId: number | string, appId: number | string) =>
     `/platform/organizations/${organizationId}/apps/${appId}`,
   postOrganization: () => "/platform/organizations",
-  putOrganizationBilling: (organizationId: number | string) =>
-    `/platform/organizations/${organizationId}/billing`,
   putOrganizationSessionRecording: (organizationId: number | string) =>
     `/platform/organizations/${organizationId}/session-recording`,
   getOrganizationEmployeesPaginated: (organizationId: number | string) =>

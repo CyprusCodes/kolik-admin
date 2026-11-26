@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import {
   Apartment as ApartmentIcon,
-  Block as BlockIcon,
   DomainAdd as DomainAddIcon,
   Groups as GroupsIcon,
   HourglassTop as HourglassTopIcon,
-  MoneyOff as MoneyOffIcon,
+  Payments as PaymentsIcon,
   People as PeopleIcon,
+  PersonAdd as PersonAddIcon,
   TrendingUp as TrendingUpIcon,
 } from "@mui/icons-material";
 import { Box, Skeleton, Typography } from "@mui/material";
@@ -95,16 +95,16 @@ const StatCards = ({ totals, days }: { totals?: OverviewTotals; days: number }) 
       to={`${paths.organizations.index}?plan=trial`}
     />
     <Stat
-      icon={<BlockIcon />}
-      label="Suspended"
-      value={totals?.suspendedOrganizations}
-      to={`${paths.organizations.index}?status=suspended`}
+      icon={<PaymentsIcon />}
+      label="Paid organizations"
+      value={totals?.paidOrganizations}
+      to={`${paths.organizations.index}?plan=paid`}
     />
     <Stat
-      icon={<MoneyOffIcon />}
-      label="Billing off"
-      value={totals?.billingOffOrganizations}
-      to={paths.billing}
+      icon={<PersonAddIcon />}
+      label={`New employees (${days}d)`}
+      value={totals?.newEmployees}
+      to={paths.organizations.index}
     />
   </Box>
 );

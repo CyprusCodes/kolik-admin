@@ -56,7 +56,7 @@ export const navSections: NavSection[] = [
         label: "Billing",
         href: paths.billing,
         icon: PaymentsIcon,
-        description: "Turn billing on or off for each organization",
+        description: "Trial and paid plans, and making organizations paid",
       },
       {
         label: "Usage & costs",
@@ -99,8 +99,7 @@ export const navSections: NavSection[] = [
         label: "Platform health",
         href: paths.health,
         icon: MonitorHeartIcon,
-        description: "Cron jobs, imports, email and SMS delivery, with retries.",
-        comingSoon: true,
+        description: "The kolik-api CloudWatch dashboard: errors, latency, traffic and resources.",
       },
       {
         label: "Audit log",

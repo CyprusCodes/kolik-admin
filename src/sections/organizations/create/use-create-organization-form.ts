@@ -24,13 +24,10 @@ const toPayload = (values: CreateOrganizationValues) => ({
     parentOrganizationId: values.parentOrganizationId ? Number(values.parentOrganizationId) : null,
     planType: values.planType,
     tier: values.tier || null,
-    maxEmployees: values.maxEmployees === "" ? null : Number(values.maxEmployees),
+    maxEmployees:
+      values.planType === "trial" && values.maxEmployees !== "" ? Number(values.maxEmployees) : null,
     trialExpiresAt:
       values.planType === "trial" && values.trialExpiresAt ? endOfDay(values.trialExpiresAt) : null,
-    billingEnabled: values.billingEnabled,
-    billingDisabledReason: values.billingEnabled
-      ? null
-      : "Billing turned off when the organization was created",
   },
   admin: {
     firstName: values.adminFirstName.trim(),

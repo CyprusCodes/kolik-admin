@@ -1,16 +1,4 @@
-import {
-  Box,
-  Divider,
-  FormControlLabel,
-  Grid,
-  MenuItem,
-  Stack,
-  Switch,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, MenuItem, Stack, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AppCard, AppCardContent, AppCardHeader } from "src/components/kolik/app-card";
@@ -60,17 +48,19 @@ const PlanBillingCard = ({ formik }: { formik: CreateOrganizationFormik }) => {
                   ))}
                 </TextField>
               </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  label="Employee limit"
-                  placeholder="No limit"
-                  inputProps={{ min: 1 }}
-                  {...fieldProps(formik, "maxEmployees")}
-                />
-              </Grid>
+              {formik.values.planType === "trial" && (
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    type="number"
+                    label="Employee limit"
+                    placeholder="No limit"
+                    inputProps={{ min: 1 }}
+                    {...fieldProps(formik, "maxEmployees")}
+                  />
+                </Grid>
+              )}
               {formik.values.planType === "trial" && (
                 <Grid item xs={12} sm={4}>
                   <DatePicker
@@ -98,17 +88,6 @@ const PlanBillingCard = ({ formik }: { formik: CreateOrganizationFormik }) => {
               )}
             </Grid>
           </Box>
-          <Divider />
-          <FormControlLabel
-            control={
-              <Switch
-                name="billingEnabled"
-                checked={formik.values.billingEnabled}
-                onChange={formik.handleChange}
-              />
-            }
-            label={<Typography variant="body1">Billing</Typography>}
-          />
         </Stack>
       </AppCardContent>
     </AppCard>

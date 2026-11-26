@@ -1,10 +1,12 @@
 import { useMemo } from "react";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
+import { OpenInNew as OpenInNewIcon } from "@mui/icons-material";
 import FilterSelect from "src/components/fields/filter-select";
 import SearchField from "src/components/fields/search-field";
 import { PageHeader } from "src/components/kolik/page-header";
 import FilterRow from "src/components/list/filter-row";
 import ListCard from "src/components/list/list-card";
+import { OPENREPLAY_URL } from "src/constants/api";
 import OrganizationsXestTable from "src/components/organization-table/organizations-xest-table";
 import { useToggleListFilters } from "src/sections/billing/use-toggle-list-filters";
 import { buildSessionRecordingColumns } from "src/sections/session-recording/session-recording-columns";
@@ -20,6 +22,18 @@ const SessionRecordingPage = () => {
       <PageHeader
         title="Session recording"
         info="Choose which organizations OpenReplay records sessions for."
+        actions={
+          <Button
+            component="a"
+            href={OPENREPLAY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="contained"
+            startIcon={<OpenInNewIcon />}
+          >
+            Open OpenReplay
+          </Button>
+        }
       />
       <ListCard
         search={

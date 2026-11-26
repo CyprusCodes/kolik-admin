@@ -1,5 +1,4 @@
 export type PlanType = "trial" | "paid";
-export type OrganizationStatus = "active" | "suspended";
 export type IntegrationKey = "email" | "sms" | "activeDirectory";
 export type IntegrationStatus = "connected" | "error" | "not_configured";
 
@@ -15,13 +14,9 @@ export interface OrganizationSummary {
   maxEmployees: number | null;
   employeeCount: number;
   trialExpiresAt: string | null;
-  status: OrganizationStatus;
-  suspendedReason: string | null;
   createdAt: string;
   lastActiveAt: string | null;
   enabledAppCount: number;
-  billingEnabled: boolean;
-  billingDisabledReason: string | null;
   sessionRecording: boolean;
 }
 
@@ -100,12 +95,8 @@ export interface OrganizationRow {
   employee_count: number;
   enabled_app_count: number;
   trial_expires_at: string | null;
-  status: OrganizationStatus;
   created_at: string;
   last_active_at: string | null;
-  suspended_reason: string | null;
-  billing_enabled: number;
-  billing_disabled_reason: string | null;
   session_recording: number;
 }
 
@@ -121,8 +112,6 @@ export interface NewOrganizationPayload {
     tier: string | null;
     maxEmployees: number | null;
     trialExpiresAt: string | null;
-    billingEnabled: boolean;
-    billingDisabledReason?: string | null;
   };
   admin: {
     firstName: string;
