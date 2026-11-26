@@ -2,8 +2,6 @@ export interface OverviewTotals {
   organizations: number;
   paidOrganizations: number;
   trialOrganizations: number;
-  suspendedOrganizations: number;
-  billingOffOrganizations: number;
   employees: number;
   users: number;
   newOrganizations: number;
@@ -14,9 +12,7 @@ export interface OverviewTotals {
 export interface OverviewAttention {
   trialEnding: number;
   trialEnded: number;
-  suspended: number;
   seatLimit: number;
-  billingOff: number;
 }
 
 export interface ModuleCount {
@@ -61,6 +57,12 @@ export interface TrendLine {
   data: number[];
 }
 
+export interface UserCountry {
+  code: string;
+  name: string;
+  users: number;
+}
+
 export interface Overview {
   days: number;
   totals: OverviewTotals;
@@ -71,6 +73,7 @@ export interface Overview {
   dailyActiveUsers: DailyCount[];
   apps: AppUsage[];
   mostActiveOrganizations: ActiveOrganization[];
+  userCountries: { countries: UserCountry[]; unknownUsers: number };
   trends: {
     apps: TrendLine[];
     organizations: TrendLine[];

@@ -36,10 +36,14 @@ const PlanModal = ({ organization, opened, saving, onClose, onSave }: PlanModalP
     validationSchema: Yup.object({
       maxEmployees: Yup.number()
         .transform((value, original) => (original === "" ? undefined : value))
-        .min(
-          organization.employeeCount,
-          `Must be at least ${organization.employeeCount}, their current headcount`,
-        ),
+        .when("planType", {
+          is: "trial",
+          then: (schema) =>
+            schema.min(
+              organization.employeeCount,
+              `Must be at least ${organization.employeeCount}, their current headcount`,
+            ),
+        }),
       trialExpiresAt: Yup.date()
         .nullable()
         .when("planType", { is: "trial", then: (schema) => schema.required("Pick a trial end date") }),
@@ -48,7 +52,8 @@ const PlanModal = ({ organization, opened, saving, onClose, onSave }: PlanModalP
       onSave({
         planType: values.planType,
         tier: values.tier || null,
-        maxEmployees: values.maxEmployees === "" ? null : Number(values.maxEmployees),
+        maxEmployees:
+          values.planType === "trial" && values.maxEmployees !== "" ? Number(values.maxEmployees) : null,
         trialExpiresAt:
           values.planType === "trial" && values.trialExpiresAt ? endOfDay(values.trialExpiresAt) : null,
       }),
@@ -93,16 +98,18 @@ const PlanModal = ({ organization, opened, saving, onClose, onSave }: PlanModalP
             </MenuItem>
           ))}
         </TextField>
-        <TextField
-          variant="outlined"
-          label="Employee limit"
-          placeholder="No limit"
-          type="number"
-          fullWidth
-          {...formik.getFieldProps("maxEmployees")}
-          error={Boolean(formik.touched.maxEmployees && formik.errors.maxEmployees)}
-          helperText={formik.touched.maxEmployees && formik.errors.maxEmployees}
-        />
+        {formik.values.planType === "trial" && (
+          <TextField
+            variant="outlined"
+            label="Employee limit"
+            placeholder="No limit"
+            type="number"
+            fullWidth
+            {...formik.getFieldProps("maxEmployees")}
+            error={Boolean(formik.touched.maxEmployees && formik.errors.maxEmployees)}
+            helperText={formik.touched.maxEmployees && formik.errors.maxEmployees}
+          />
+        )}
         {formik.values.planType === "trial" && (
           <DatePicker
             label="Trial ends on"

@@ -2,10 +2,9 @@ import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import getOrganization from "src/services/organizations/getOrganization";
 import patchOrganizationPlan from "src/services/organizations/patchOrganizationPlan";
-import patchOrganizationStatus from "src/services/organizations/patchOrganizationStatus";
 import putOrganizationApp from "src/services/organizations/putOrganizationApp";
 import putOrganizationSessionRecording from "src/services/organizations/putOrganizationSessionRecording";
-import type { OrganizationDetail, OrganizationStatus, PlanUpdate } from "src/types/organization";
+import type { OrganizationDetail, PlanUpdate } from "src/types/organization";
 
 export const useOrganization = (organizationId: number) => {
   const queryClient = useQueryClient();
@@ -32,16 +31,6 @@ export const useOrganization = (organizationId: number) => {
     onError,
   });
 
-  const updateStatus = useMutation({
-    mutationFn: (body: { status: OrganizationStatus; reason?: string }) =>
-      patchOrganizationStatus(organizationId, body),
-    onSuccess: (response, variables) =>
-      onSaved(variables.status === "suspended" ? "Organization suspended" : "Organization reactivated")(
-        response,
-      ),
-    onError,
-  });
-
   const toggleApp = useMutation({
     mutationFn: ({ appId, enabled }: { appId: number; enabled: boolean }) =>
       putOrganizationApp(organizationId, appId, { enabled }),
@@ -57,7 +46,7 @@ export const useOrganization = (organizationId: number) => {
     onError,
   });
 
-  return { ...query, updatePlan, updateStatus, toggleApp, toggleSessionRecording };
+  return { ...query, updatePlan, toggleApp, toggleSessionRecording };
 };
 
 export type OrganizationController = ReturnType<typeof useOrganization>;

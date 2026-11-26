@@ -68,7 +68,6 @@ const UserMembershipsTab = ({ memberships }: { memberships: PlatformUserMembersh
                     >
                       {membership.organizationName}
                     </Link>
-                    {membership.organizationSuspended && <StatusChip tone="bad" label="Suspended" />}
                   </Stack>
                 </TableCell>
                 <TableCell>

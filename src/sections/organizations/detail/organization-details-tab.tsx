@@ -1,7 +1,6 @@
 import { CardContent, Grid, IconButton, Link, Stack, Tooltip, Typography } from "@mui/material";
 import { Edit as EditIcon } from "@mui/icons-material";
 import AsyncSwitch from "src/components/async-switch";
-import StatusChip from "src/components/list/status-chip";
 import { DetailField, DetailSection } from "src/components/detail-page/detail-section";
 import ProfileHeader from "src/components/detail-page/profile-header";
 import { AppCard } from "src/components/kolik/app-card";
@@ -16,7 +15,6 @@ interface OrganizationDetailsTabProps {
   organization: OrganizationDetail;
   controller: OrganizationController;
   onEditPlan: () => void;
-  onToggleBilling: (enabled: boolean) => Promise<boolean>;
 }
 
 const languageNames: Record<string, string> = { en: "English", tr: "Turkish" };
@@ -29,12 +27,7 @@ const initialsOf = (name: string) =>
     .map((part) => part.charAt(0).toUpperCase())
     .join("");
 
-const OrganizationDetailsTab = ({
-  organization,
-  controller,
-  onEditPlan,
-  onToggleBilling,
-}: OrganizationDetailsTabProps) => {
+const OrganizationDetailsTab = ({ organization, controller, onEditPlan }: OrganizationDetailsTabProps) => {
   const plan = organization.planType === "paid" ? "Paid plan" : "Trial";
   const tier = organization.tier ? formatTier(organization.tier) : null;
 
@@ -75,16 +68,6 @@ const OrganizationDetailsTab = ({
             </DetailField>
             <DetailField label="Joined">{formatDate(organization.createdAt)}</DetailField>
             <DetailField label="Organization ID">{organization.organizationId}</DetailField>
-            <DetailField label="Status">
-              {organization.status === "active" ? (
-                <StatusChip tone="good" label="Active" />
-              ) : (
-                <StatusChip tone="bad" label="Suspended" />
-              )}
-            </DetailField>
-            {organization.status === "suspended" && (
-              <DetailField label="Suspension Reason">{organization.suspendedReason || "-"}</DetailField>
-            )}
           </DetailSection>
 
           <DetailSection title="Plan and Limits">
@@ -103,18 +86,7 @@ const OrganizationDetailsTab = ({
             </DetailField>
           </DetailSection>
 
-          <DetailSection title="Billing and Settings">
-            <DetailField label="Billing">
-              <Stack direction="row" alignItems="center" spacing={1}>
-                <AsyncSwitch
-                  key={String(organization.billingEnabled)}
-                  checked={organization.billingEnabled}
-                  onToggle={onToggleBilling}
-                  aria-label="Billing"
-                />
-                <Typography>{organization.billingEnabled ? "On" : "Off"}</Typography>
-              </Stack>
-            </DetailField>
+          <DetailSection title="Settings">
             <DetailField label="Session Recording">
               <Stack direction="row" alignItems="center" spacing={1}>
                 <AsyncSwitch
@@ -131,11 +103,6 @@ const OrganizationDetailsTab = ({
                 <Typography>{organization.sessionRecording ? "On" : "Off"}</Typography>
               </Stack>
             </DetailField>
-            {!organization.billingEnabled && (
-              <DetailField label="Why Billing Is Off">
-                {organization.billingDisabledReason || "-"}
-              </DetailField>
-            )}
           </DetailSection>
 
           <DetailSection title="Group">

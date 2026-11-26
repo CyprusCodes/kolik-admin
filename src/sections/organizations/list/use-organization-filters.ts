@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useDebouncedValue } from "src/hooks/use-debounced-value";
 import { useSearchParams } from "react-router-dom";
 
-export type FilterKey = "plan" | "status" | "tier";
+export type FilterKey = "plan" | "tier";
 
-const filterKeys: FilterKey[] = ["plan", "status", "tier"];
+const filterKeys: FilterKey[] = ["plan", "tier"];
 
 export const useOrganizationFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -13,7 +13,6 @@ export const useOrganizationFilters = () => {
 
   const values: Record<FilterKey, string | null> = {
     plan: searchParams.get("plan"),
-    status: searchParams.get("status"),
     tier: searchParams.get("tier"),
   };
 

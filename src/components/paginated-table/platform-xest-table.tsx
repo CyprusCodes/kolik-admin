@@ -18,6 +18,7 @@ interface PlatformXestTableProps<T extends Record<string, any>> {
   extraFilters?: FilterSpec[];
   exportConfig?: ExportDataProps<Record<string, unknown>>;
   initialSortCriteria: string;
+  refreshKey?: number;
 }
 
 const toQuery = (filters: FilterSpec[], startIndex: number) =>
@@ -38,6 +39,7 @@ const PlatformXestTable = <T extends Record<string, any>>({
   extraFilters = [],
   exportConfig,
   initialSortCriteria,
+  refreshKey = 0,
 }: PlatformXestTableProps<T>) => {
   const updateQueryParams = useUpdateQueryParams();
   const filterKey = JSON.stringify(extraFilters);
@@ -83,7 +85,7 @@ const PlatformXestTable = <T extends Record<string, any>>({
           updateSearchQueryParams: updateQueryParams,
         },
         initialSortCriteria,
-        deps: [filterKey],
+        deps: [filterKey, refreshKey],
       }}
       components={DefaultTableComponents}
       columns={columns}

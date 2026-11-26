@@ -23,16 +23,6 @@ const OrganizationsFilters = ({ values, onFilterChange, hasFilters, onClear }: O
       ]}
     />
     <FilterSelect
-      label="Status"
-      allLabel="All statuses"
-      value={values.status}
-      onChange={(value) => onFilterChange("status", value)}
-      data={[
-        { value: "active", label: "Active" },
-        { value: "suspended", label: "Suspended" },
-      ]}
-    />
-    <FilterSelect
       label="Tier"
       allLabel="All tiers"
       value={values.tier}

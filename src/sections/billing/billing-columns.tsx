@@ -1,54 +1,46 @@
-import { Tooltip, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import type { Col } from "@xest-ui/data-table";
-import AsyncSwitch from "src/components/async-switch";
+import StatusChip from "src/components/list/status-chip";
 import {
   actionsColumn,
   employeesColumn,
   nameColumn,
   planColumn,
-  statusColumn,
   tierColumn,
 } from "src/components/organization-table/organization-columns";
 import type { OrganizationRow } from "src/types/organization";
+import { formatDate, trialShortLabel } from "src/utils/format";
 
-const billingOptions = [
-  { label: "On", value: 1 },
-  { label: "Off", value: 0 },
-];
-
-export const buildBillingColumns = (
-  toggle: (target: { id: number; name: string }, enabled: boolean) => Promise<boolean>,
-): Col<OrganizationRow>[] => [
+export const buildBillingColumns = (onMakePaid: (row: OrganizationRow) => void): Col<OrganizationRow>[] => [
   nameColumn,
   planColumn,
   tierColumn,
   employeesColumn,
-  statusColumn,
   {
-    title: "Billing",
-    dataIndex: "billing_enabled",
-    filterType: { dbCol: "organizations.billing_enabled", type: "options", options: billingOptions },
-    render: (row) => (
-      <AsyncSwitch
-        key={`${row.organization_id}-${row.billing_enabled}`}
-        checked={Boolean(row.billing_enabled)}
-        aria-label={`Billing for ${row.organization_name}`}
-        onToggle={(enabled) => toggle({ id: row.organization_id, name: row.organization_name }, enabled)}
-      />
-    ),
-  },
-  {
-    title: "Reason",
-    dataIndex: "billing_disabled_reason",
+    title: "Trial ends",
+    dataIndex: "trial_expires_at",
+    filterType: { dbCol: "organizations.trial_expires_at", type: "date" },
     render: (row) =>
-      row.billing_disabled_reason ? (
-        <Tooltip title={row.billing_disabled_reason}>
-          <Typography variant="body2" noWrap sx={{ maxWidth: 240 }}>
-            {row.billing_disabled_reason}
-          </Typography>
-        </Tooltip>
+      row.plan_type === "trial" && row.trial_expires_at ? (
+        <StatusChip
+          tone={new Date(row.trial_expires_at) < new Date() ? "bad" : "neutral"}
+          label={formatDate(row.trial_expires_at)}
+          tooltip={trialShortLabel(row.trial_expires_at)}
+        />
       ) : (
         "-"
+      ),
+  },
+  {
+    title: "Billing",
+    key: "billing",
+    render: (row) =>
+      row.plan_type === "paid" ? (
+        <StatusChip tone="good" label="Paid" />
+      ) : (
+        <Button size="small" variant="outlined" onClick={() => onMakePaid(row)}>
+          Make paid
+        </Button>
       ),
   },
   actionsColumn,

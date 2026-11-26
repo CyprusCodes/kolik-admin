@@ -46,18 +46,11 @@ const AttentionCard = ({ attention }: { attention?: OverviewAttention }) => (
             urgent
           />
           <Row
-            label="Suspended organizations"
-            count={attention.suspended}
-            to={`${paths.organizations.index}?status=suspended`}
-            urgent
-          />
-          <Row
             label="Trials ending this week"
             count={attention.trialEnding}
             to={`${paths.organizations.index}?plan=trial`}
           />
           <Row label="At their employee limit" count={attention.seatLimit} to={paths.organizations.index} />
-          <Row label="Billing turned off" count={attention.billingOff} to={paths.billing} />
         </List>
       )}
     </AppCardContent>

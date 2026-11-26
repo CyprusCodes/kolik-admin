@@ -18,7 +18,6 @@ export interface PlatformUserMembership {
   userOrganizationId: number;
   organizationId: number;
   organizationName: string;
-  organizationSuspended: boolean;
   roleName: string | null;
   isCompanyAdmin: boolean;
   status: "active" | "disabled" | "archived" | "removed";

@@ -12,7 +12,6 @@ export interface CreateOrganizationValues {
   tier: string;
   maxEmployees: string;
   trialExpiresAt: Date | null;
-  billingEnabled: boolean;
   adminFirstName: string;
   adminLastName: string;
   adminEmail: string;
@@ -38,7 +37,6 @@ export const initialValues: CreateOrganizationValues = {
   tier: "Starter Package",
   maxEmployees: "25",
   trialExpiresAt: inDays(14),
-  billingEnabled: true,
   adminFirstName: "",
   adminLastName: "",
   adminEmail: "",

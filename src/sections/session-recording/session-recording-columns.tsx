@@ -5,7 +5,6 @@ import {
   nameColumn,
   parentColumn,
   planColumn,
-  statusColumn,
 } from "src/components/organization-table/organization-columns";
 import type { OrganizationRow } from "src/types/organization";
 
@@ -20,7 +19,6 @@ export const buildSessionRecordingColumns = (
   nameColumn,
   { ...parentColumn, hidden: false },
   planColumn,
-  statusColumn,
   {
     title: "Session recording",
     dataIndex: "session_recording",

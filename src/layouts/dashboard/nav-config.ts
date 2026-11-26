@@ -56,7 +56,7 @@ export const navSections: NavSection[] = [
         label: "Billing",
         href: paths.billing,
         icon: PaymentsIcon,
-        description: "Turn billing on or off for each organization",
+        description: "Trial and paid plans, and making organizations paid",
       },
       {
         label: "Usage & costs",

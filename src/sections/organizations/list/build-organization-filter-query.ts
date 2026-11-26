@@ -3,7 +3,6 @@ import type { FilterKey } from "./use-organization-filters";
 
 const dbColumns: Record<FilterKey, string> = {
   plan: "organizations.plan_type",
-  status: "organization_statuses.status",
   tier: "organizations.organization_tier_type",
 };
 

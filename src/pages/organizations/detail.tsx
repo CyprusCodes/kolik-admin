@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Alert, Box, Button, Skeleton, Stack, Typography } from "@mui/material";
+import { Box, Button, Skeleton, Stack, Typography } from "@mui/material";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import ConfirmDialog from "src/components/confirm-dialog";
 import VerticalNav, {
   HorizontalDetailNav,
   useDetailNavLayout,
@@ -13,9 +12,7 @@ import AppsTab from "src/sections/organizations/detail/apps-tab";
 import IntegrationsTab from "src/sections/organizations/detail/integrations-tab";
 import PeopleTab from "src/sections/organizations/detail/people-tab";
 import PlanModal from "src/sections/organizations/detail/plan-modal";
-import SuspendModal from "src/sections/organizations/detail/suspend-modal";
 import { useOrganization } from "src/sections/organizations/detail/use-organization";
-import { useBillingToggle } from "src/sections/billing/use-billing-toggle";
 import { useBreadcrumbLabel } from "src/layouts/dashboard/breadcrumb-store";
 import { paths } from "src/paths";
 
@@ -37,9 +34,6 @@ const OrganizationDetailPage = () => {
   const organization = controller.data;
   useBreadcrumbLabel(organization?.organizationName);
   const [planOpen, setPlanOpen] = useState(false);
-  const [suspendOpen, setSuspendOpen] = useState(false);
-  const [reactivateOpen, setReactivateOpen] = useState(false);
-  const billing = useBillingToggle();
 
   if (controller.isError) {
     return (
@@ -74,20 +68,10 @@ const OrganizationDetailPage = () => {
           title={organization.organizationName}
           onBack={() => navigate(paths.organizations.index)}
           actions={
-            <OrganizationActionsMenu
-              organization={organization}
-              onChangePlan={() => setPlanOpen(true)}
-              onSuspend={() => setSuspendOpen(true)}
-              onReactivate={() => setReactivateOpen(true)}
-            />
+            <OrganizationActionsMenu organization={organization} onChangePlan={() => setPlanOpen(true)} />
           }
         />
         {!mdUp && <HorizontalDetailNav items={SECTIONS} value={tab} onChange={changeTab} />}
-        {organization.status === "suspended" && (
-          <Alert severity="error">
-            This organization is suspended: {organization.suspendedReason ?? "no reason given"}.
-          </Alert>
-        )}
       </Stack>
       <Stack direction="row" spacing={3} alignItems="flex-start">
         {mdUp && <VerticalNav items={SECTIONS} value={tab} onChange={changeTab} />}
@@ -97,12 +81,6 @@ const OrganizationDetailPage = () => {
               organization={organization}
               controller={controller}
               onEditPlan={() => setPlanOpen(true)}
-              onToggleBilling={(enabled) =>
-                billing.toggle(
-                  { id: organization.organizationId, name: organization.organizationName },
-                  enabled,
-                )
-              }
             />
           )}
           {tab === "apps" && <AppsTab organization={organization} controller={controller} />}
@@ -118,31 +96,6 @@ const OrganizationDetailPage = () => {
         onClose={() => setPlanOpen(false)}
         onSave={(values) => controller.updatePlan.mutate(values, { onSuccess: () => setPlanOpen(false) })}
       />
-      <SuspendModal
-        key={String(suspendOpen)}
-        organizationName={organization.organizationName}
-        opened={suspendOpen}
-        saving={controller.updateStatus.isPending}
-        onClose={() => setSuspendOpen(false)}
-        onConfirm={(reason) =>
-          controller.updateStatus.mutate(
-            { status: "suspended", reason },
-            { onSuccess: () => setSuspendOpen(false) },
-          )
-        }
-      />
-      <ConfirmDialog
-        open={reactivateOpen}
-        title={`Reactivate ${organization.organizationName}?`}
-        message="Everyone in this organization can log in again straight away."
-        confirmLabel="Reactivate"
-        loading={controller.updateStatus.isPending}
-        onCancel={() => setReactivateOpen(false)}
-        onConfirm={() =>
-          controller.updateStatus.mutate({ status: "active" }, { onSuccess: () => setReactivateOpen(false) })
-        }
-      />
-      {billing.modal}
     </>
   );
 };
